@@ -49,6 +49,9 @@ class qtype_lti_question extends question_graded_automatically_with_countback {
                 $totalstemscore += max(0, 1 - ($lastwrongindex + 1) * $this->penalty);
             }
         }
+        if (count($this->order) <= 0) {
+            return 0.0;
+        }
         return $totalstemscore / count($this->order);
     }
 

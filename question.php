@@ -33,6 +33,10 @@ class qtype_lti_question extends question_graded_automatically_with_countback {
 
     public function compute_final_grade($responses, $totaltries) {
         $totalstemscore = 0;
+        if (!isset($this->order))
+        {
+            return 0.0;
+        }
         foreach ($this->order as $key => $rowid) {
             $fieldname = 'answer';
             $lastwrongindex = -1;
@@ -48,6 +52,9 @@ class qtype_lti_question extends question_graded_automatically_with_countback {
             if ($finallyright) {
                 $totalstemscore += max(0, 1 - ($lastwrongindex + 1) * $this->penalty);
             }
+        }
+        if (count($this->order) <= 0) {
+            return 0.0;
         }
         return $totalstemscore / count($this->order);
     }
